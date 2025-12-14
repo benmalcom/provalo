@@ -1,0 +1,249 @@
+// Prisma Schema for Provalo
+// Database: SQLite (local) / Turso (production)
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ============================================================================
+// NEXTAUTH MODELS
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique // Required for identity
+  emailVerified DateTime?
+  avatar        String?
+
+  // Profile fields for statements/reports
+  displayName  String? // Name to show on generated statements
+  businessName String? // Optional business/company name
+  address      String? // Physical address for statements
+  phone        String? // Contact phone
+
+  // NextAuth relations
+  accounts Account[]
+  sessions Session[]
+
+  // Provalo relations
+  wallets      Wallet[]
+  transactions Transaction[]
+  reports      Report[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================================================
+// PROVALO MODELS
+// ============================================================================
+
+/// Wallet linked to a user account
+model Wallet {
+  id      String  @id @default(cuid())
+  address String // 0x... checksummed address
+  chainId Int // Chain ID from connected wallet
+  label   String? // User-friendly label: "Main Wallet", "Freelance", etc.
+
+  // Proof of ownership
+  signature  String // Signature proving ownership
+  message    String // Message that was signed
+  verifiedAt DateTime @default(now())
+
+  // Relations
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([address, chainId])
+  @@index([userId])
+}
+
+/// Incoming transaction to a user's wallet
+model Transaction {
+  id      String @id @default(cuid())
+  txHash  String
+  chainId Int
+
+  // Transaction details
+  fromAddress   String
+  toAddress     String
+  amount        String // Stored as string to preserve precision
+  tokenAddress  String
+  tokenSymbol   String
+  tokenDecimals Int
+
+  // USD conversion at time of transaction
+  amountUsd Float?
+  priceAtTx Float?
+  timestamp DateTime
+
+  // User labeling
+  userLabel String?
+
+  // Sender verification
+  verifiedSenderId String?
+  verifiedSender   VerifiedSender? @relation(fields: [verifiedSenderId], references: [id])
+
+  // Relations
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  walletId String
+  wallet   Wallet @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([txHash, chainId])
+  @@index([userId])
+  @@index([walletId])
+  @@index([fromAddress])
+  @@index([timestamp])
+}
+
+/// Verified sender (company/entity that verified their address)
+model VerifiedSender {
+  id            String  @id @default(cuid())
+  address       String // The verified wallet address
+  chainId       Int // Chain ID for the address
+  companyName   String
+  officialLabel String // e.g., "Acme Corp - Contract Payment"
+  contactEmail  String
+  logoUrl       String?
+  isActive      Boolean @default(true)
+
+  // Verification details
+  verifiedByEmail String
+  verifiedAt      DateTime @default(now())
+
+  // Relations
+  transactions         Transaction[]
+  verificationRequests VerificationRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([address, chainId])
+  @@index([address])
+}
+
+/// Request sent to a payer to verify their address
+model VerificationRequest {
+  id    String @id @default(cuid())
+  token String @unique @default(cuid()) // Unique token for verification URL
+
+  // Request details
+  transactionId String
+  txHash        String
+  fromAddress   String
+  amount        String
+  tokenSymbol   String
+  timestamp     DateTime
+
+  // Status
+  status    VerificationStatus @default(PENDING)
+  expiresAt DateTime
+
+  // Relations
+  requestedByUserId String
+  verifiedSenderId  String?
+  verifiedSender    VerifiedSender? @relation(fields: [verifiedSenderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([token])
+  @@index([fromAddress])
+  @@index([requestedByUserId])
+}
+
+enum VerificationStatus {
+  PENDING
+  CONFIRMED
+  EXPIRED
+  REVOKED
+}
+
+/// Generated income report
+model Report {
+  id       String @id @default(cuid())
+  reportId String @unique // Public ID: PD-YYYY-XXXXXX
+
+  // Report details
+  title    String?
+  dateFrom DateTime
+  dateTo   DateTime
+  template ReportTemplate @default(STANDARD)
+
+  // Generated content
+  pdfUrl         String?
+  transactionIds String // JSON array of transaction IDs included
+
+  // Metadata
+  totalIncome      Float
+  totalVerified    Float
+  transactionCount Int
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([reportId])
+}
+
+enum ReportTemplate {
+  STANDARD
+  VISA_APPLICATION
+  RENTAL_APPLICATION
+  LOAN_APPLICATION
+}

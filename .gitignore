@@ -1,0 +1,46 @@
+### NextJS template
+# dependencies
+node_modules
+**/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# Ignore .next in root but allow in public/app
+/.next/
+
+# production
+/out/
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+env.local
+.env.test
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.idea
+
+# Playwright
+/test-results/
+/merged-output/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
