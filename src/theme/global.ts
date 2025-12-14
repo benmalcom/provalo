@@ -15,22 +15,23 @@ export const globalStyles = {
 
   // HTML base
   html: {
-    height: '100%',
+    minHeight: '100%',
     WebkitFontSmoothing: 'antialiased',
     textShadow: '1px 1px 1px rgba(0,0,0,0.004)',
   },
 
   // Body base
   body: {
-    height: '100%',
+    minHeight: '100%',
     margin: 0,
     padding: 0,
-    overflow: 'hidden',
     bg: 'bg.canvas',
     color: 'text.primary',
     transition: 'background-color 0.3s ease',
     WebkitFontSmoothing: 'antialiased',
     textShadow: '1px 1px 1px rgba(0,0,0,0.004)',
+    overflowX: 'hidden',
+    overflowY: 'auto',
   },
 
   // CSS Reset

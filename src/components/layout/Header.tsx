@@ -23,12 +23,12 @@ export function Header({ title }: HeaderProps) {
     <Box
       as="header"
       h={{ base: 'auto', lg: '64px' }}
-      minH="56px"
+      minH={{ base: '48px', lg: '64px' }}
       bg="bg.surface"
       borderBottom="1px solid"
       borderColor="border.muted"
-      position="sticky"
-      top={{ base: '64px', lg: 0 }}
+      position={{ base: 'relative', lg: 'sticky' }}
+      top={{ lg: 0 }}
       zIndex={10}
     >
       <Flex

@@ -39,11 +39,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <Flex minH="100vh" bg="bg.canvas">
+    <Box minH="100vh" bg="bg.canvas">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main content area */}
-      <Box ml={{ base: 0, lg: '240px' }} flex={1} minH="100vh">
+      <Box ml={{ base: 0, lg: '240px' }} minH="100vh">
         {/* Mobile header */}
         <Flex
           display={{ base: 'flex', lg: 'none' }}
@@ -73,6 +73,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Page content */}
         {children}
       </Box>
-    </Flex>
+    </Box>
   );
 }
