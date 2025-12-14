@@ -272,7 +272,7 @@ export type VerifiedSenderWhereInput = {
   verifiedAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
-  transactions?: Prisma.TransactionListRelationFilter
+  transactionMetas?: Prisma.TransactionMetaListRelationFilter
   verificationRequests?: Prisma.VerificationRequestListRelationFilter
 }
 
@@ -289,7 +289,7 @@ export type VerifiedSenderOrderByWithRelationInput = {
   verifiedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  transactionMetas?: Prisma.TransactionMetaOrderByRelationAggregateInput
   verificationRequests?: Prisma.VerificationRequestOrderByRelationAggregateInput
 }
 
@@ -310,7 +310,7 @@ export type VerifiedSenderWhereUniqueInput = Prisma.AtLeast<{
   verifiedAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VerifiedSender"> | Date | string
-  transactions?: Prisma.TransactionListRelationFilter
+  transactionMetas?: Prisma.TransactionMetaListRelationFilter
   verificationRequests?: Prisma.VerificationRequestListRelationFilter
 }, "id" | "address_chainId">
 
@@ -365,7 +365,7 @@ export type VerifiedSenderCreateInput = {
   verifiedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionCreateNestedManyWithoutVerifiedSenderInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutVerifiedSenderInput
   verificationRequests?: Prisma.VerificationRequestCreateNestedManyWithoutVerifiedSenderInput
 }
 
@@ -382,7 +382,7 @@ export type VerifiedSenderUncheckedCreateInput = {
   verifiedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutVerifiedSenderInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutVerifiedSenderInput
   verificationRequests?: Prisma.VerificationRequestUncheckedCreateNestedManyWithoutVerifiedSenderInput
 }
 
@@ -399,7 +399,7 @@ export type VerifiedSenderUpdateInput = {
   verifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUpdateManyWithoutVerifiedSenderNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutVerifiedSenderNestedInput
   verificationRequests?: Prisma.VerificationRequestUpdateManyWithoutVerifiedSenderNestedInput
 }
 
@@ -416,7 +416,7 @@ export type VerifiedSenderUncheckedUpdateInput = {
   verifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutVerifiedSenderNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutVerifiedSenderNestedInput
   verificationRequests?: Prisma.VerificationRequestUncheckedUpdateManyWithoutVerifiedSenderNestedInput
 }
 
@@ -528,20 +528,20 @@ export type VerifiedSenderSumOrderByAggregateInput = {
   chainId?: Prisma.SortOrder
 }
 
-export type VerifiedSenderCreateNestedOneWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.VerifiedSenderCreateOrConnectWithoutTransactionsInput
+export type VerifiedSenderCreateNestedOneWithoutTransactionMetasInput = {
+  create?: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionMetasInput>
+  connectOrCreate?: Prisma.VerifiedSenderCreateOrConnectWithoutTransactionMetasInput
   connect?: Prisma.VerifiedSenderWhereUniqueInput
 }
 
-export type VerifiedSenderUpdateOneWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.VerifiedSenderCreateOrConnectWithoutTransactionsInput
-  upsert?: Prisma.VerifiedSenderUpsertWithoutTransactionsInput
+export type VerifiedSenderUpdateOneWithoutTransactionMetasNestedInput = {
+  create?: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionMetasInput>
+  connectOrCreate?: Prisma.VerifiedSenderCreateOrConnectWithoutTransactionMetasInput
+  upsert?: Prisma.VerifiedSenderUpsertWithoutTransactionMetasInput
   disconnect?: Prisma.VerifiedSenderWhereInput | boolean
   delete?: Prisma.VerifiedSenderWhereInput | boolean
   connect?: Prisma.VerifiedSenderWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.VerifiedSenderUpdateToOneWithWhereWithoutTransactionsInput, Prisma.VerifiedSenderUpdateWithoutTransactionsInput>, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VerifiedSenderUpdateToOneWithWhereWithoutTransactionMetasInput, Prisma.VerifiedSenderUpdateWithoutTransactionMetasInput>, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionMetasInput>
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -564,7 +564,7 @@ export type VerifiedSenderUpdateOneWithoutVerificationRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VerifiedSenderUpdateToOneWithWhereWithoutVerificationRequestsInput, Prisma.VerifiedSenderUpdateWithoutVerificationRequestsInput>, Prisma.VerifiedSenderUncheckedUpdateWithoutVerificationRequestsInput>
 }
 
-export type VerifiedSenderCreateWithoutTransactionsInput = {
+export type VerifiedSenderCreateWithoutTransactionMetasInput = {
   id?: string
   address: string
   chainId: number
@@ -580,7 +580,7 @@ export type VerifiedSenderCreateWithoutTransactionsInput = {
   verificationRequests?: Prisma.VerificationRequestCreateNestedManyWithoutVerifiedSenderInput
 }
 
-export type VerifiedSenderUncheckedCreateWithoutTransactionsInput = {
+export type VerifiedSenderUncheckedCreateWithoutTransactionMetasInput = {
   id?: string
   address: string
   chainId: number
@@ -596,23 +596,23 @@ export type VerifiedSenderUncheckedCreateWithoutTransactionsInput = {
   verificationRequests?: Prisma.VerificationRequestUncheckedCreateNestedManyWithoutVerifiedSenderInput
 }
 
-export type VerifiedSenderCreateOrConnectWithoutTransactionsInput = {
+export type VerifiedSenderCreateOrConnectWithoutTransactionMetasInput = {
   where: Prisma.VerifiedSenderWhereUniqueInput
-  create: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionMetasInput>
 }
 
-export type VerifiedSenderUpsertWithoutTransactionsInput = {
-  update: Prisma.XOR<Prisma.VerifiedSenderUpdateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionsInput>
+export type VerifiedSenderUpsertWithoutTransactionMetasInput = {
+  update: Prisma.XOR<Prisma.VerifiedSenderUpdateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionMetasInput>
+  create: Prisma.XOR<Prisma.VerifiedSenderCreateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedCreateWithoutTransactionMetasInput>
   where?: Prisma.VerifiedSenderWhereInput
 }
 
-export type VerifiedSenderUpdateToOneWithWhereWithoutTransactionsInput = {
+export type VerifiedSenderUpdateToOneWithWhereWithoutTransactionMetasInput = {
   where?: Prisma.VerifiedSenderWhereInput
-  data: Prisma.XOR<Prisma.VerifiedSenderUpdateWithoutTransactionsInput, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionsInput>
+  data: Prisma.XOR<Prisma.VerifiedSenderUpdateWithoutTransactionMetasInput, Prisma.VerifiedSenderUncheckedUpdateWithoutTransactionMetasInput>
 }
 
-export type VerifiedSenderUpdateWithoutTransactionsInput = {
+export type VerifiedSenderUpdateWithoutTransactionMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   chainId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -628,7 +628,7 @@ export type VerifiedSenderUpdateWithoutTransactionsInput = {
   verificationRequests?: Prisma.VerificationRequestUpdateManyWithoutVerifiedSenderNestedInput
 }
 
-export type VerifiedSenderUncheckedUpdateWithoutTransactionsInput = {
+export type VerifiedSenderUncheckedUpdateWithoutTransactionMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   chainId?: Prisma.IntFieldUpdateOperationsInput | number
@@ -657,7 +657,7 @@ export type VerifiedSenderCreateWithoutVerificationRequestsInput = {
   verifiedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionCreateNestedManyWithoutVerifiedSenderInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutVerifiedSenderInput
 }
 
 export type VerifiedSenderUncheckedCreateWithoutVerificationRequestsInput = {
@@ -673,7 +673,7 @@ export type VerifiedSenderUncheckedCreateWithoutVerificationRequestsInput = {
   verifiedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutVerifiedSenderInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutVerifiedSenderInput
 }
 
 export type VerifiedSenderCreateOrConnectWithoutVerificationRequestsInput = {
@@ -705,7 +705,7 @@ export type VerifiedSenderUpdateWithoutVerificationRequestsInput = {
   verifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUpdateManyWithoutVerifiedSenderNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutVerifiedSenderNestedInput
 }
 
 export type VerifiedSenderUncheckedUpdateWithoutVerificationRequestsInput = {
@@ -721,7 +721,7 @@ export type VerifiedSenderUncheckedUpdateWithoutVerificationRequestsInput = {
   verifiedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutVerifiedSenderNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutVerifiedSenderNestedInput
 }
 
 
@@ -730,12 +730,12 @@ export type VerifiedSenderUncheckedUpdateWithoutVerificationRequestsInput = {
  */
 
 export type VerifiedSenderCountOutputType = {
-  transactions: number
+  transactionMetas: number
   verificationRequests: number
 }
 
 export type VerifiedSenderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transactions?: boolean | VerifiedSenderCountOutputTypeCountTransactionsArgs
+  transactionMetas?: boolean | VerifiedSenderCountOutputTypeCountTransactionMetasArgs
   verificationRequests?: boolean | VerifiedSenderCountOutputTypeCountVerificationRequestsArgs
 }
 
@@ -752,8 +752,8 @@ export type VerifiedSenderCountOutputTypeDefaultArgs<ExtArgs extends runtime.Typ
 /**
  * VerifiedSenderCountOutputType without action
  */
-export type VerifiedSenderCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TransactionWhereInput
+export type VerifiedSenderCountOutputTypeCountTransactionMetasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionMetaWhereInput
 }
 
 /**
@@ -777,7 +777,7 @@ export type VerifiedSenderSelect<ExtArgs extends runtime.Types.Extensions.Intern
   verifiedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  transactions?: boolean | Prisma.VerifiedSender$transactionsArgs<ExtArgs>
+  transactionMetas?: boolean | Prisma.VerifiedSender$transactionMetasArgs<ExtArgs>
   verificationRequests?: boolean | Prisma.VerifiedSender$verificationRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.VerifiedSenderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["verifiedSender"]>
@@ -829,7 +829,7 @@ export type VerifiedSenderSelectScalar = {
 
 export type VerifiedSenderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "address" | "chainId" | "companyName" | "officialLabel" | "contactEmail" | "logoUrl" | "isActive" | "verifiedByEmail" | "verifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["verifiedSender"]>
 export type VerifiedSenderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  transactions?: boolean | Prisma.VerifiedSender$transactionsArgs<ExtArgs>
+  transactionMetas?: boolean | Prisma.VerifiedSender$transactionMetasArgs<ExtArgs>
   verificationRequests?: boolean | Prisma.VerifiedSender$verificationRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.VerifiedSenderCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -839,7 +839,7 @@ export type VerifiedSenderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type $VerifiedSenderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "VerifiedSender"
   objects: {
-    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    transactionMetas: Prisma.$TransactionMetaPayload<ExtArgs>[]
     verificationRequests: Prisma.$VerificationRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1249,7 +1249,7 @@ readonly fields: VerifiedSenderFieldRefs;
  */
 export interface Prisma__VerifiedSenderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  transactions<T extends Prisma.VerifiedSender$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VerifiedSender$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactionMetas<T extends Prisma.VerifiedSender$transactionMetasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VerifiedSender$transactionMetasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionMetaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   verificationRequests<T extends Prisma.VerifiedSender$verificationRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VerifiedSender$verificationRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1678,27 +1678,27 @@ export type VerifiedSenderDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
- * VerifiedSender.transactions
+ * VerifiedSender.transactionMetas
  */
-export type VerifiedSender$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type VerifiedSender$transactionMetasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Transaction
+   * Select specific fields to fetch from the TransactionMeta
    */
-  select?: Prisma.TransactionSelect<ExtArgs> | null
+  select?: Prisma.TransactionMetaSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Transaction
+   * Omit specific fields from the TransactionMeta
    */
-  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  omit?: Prisma.TransactionMetaOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TransactionInclude<ExtArgs> | null
-  where?: Prisma.TransactionWhereInput
-  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
-  cursor?: Prisma.TransactionWhereUniqueInput
+  include?: Prisma.TransactionMetaInclude<ExtArgs> | null
+  where?: Prisma.TransactionMetaWhereInput
+  orderBy?: Prisma.TransactionMetaOrderByWithRelationInput | Prisma.TransactionMetaOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionMetaWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+  distinct?: Prisma.TransactionMetaScalarFieldEnum | Prisma.TransactionMetaScalarFieldEnum[]
 }
 
 /**

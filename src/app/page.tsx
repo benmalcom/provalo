@@ -1,7 +1,6 @@
 'use client';
 
-import { Box } from '@chakra-ui/react';
-import ProvaloLogo from '@/components/ui/ProvaloLogo';
+import { ProvaloLogo } from '@/components/ui/ProvaloLogo';
 
 export default function LogoShowcase() {
   return (

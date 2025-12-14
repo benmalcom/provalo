@@ -6,7 +6,6 @@ import React, {
   useEffect,
   useState,
   useMemo,
-  useRef,
 } from 'react';
 import {
   useAccount,
@@ -36,12 +35,7 @@ import {
   approveToken,
   waitForTransaction,
 } from './blockchain';
-import type {
-  TokenState,
-  TokenData,
-  UseWalletReturn,
-  ConnectorInfo,
-} from './types';
+import type { TokenState, TokenData, UseWalletReturn } from './types';
 
 /**
  * Wallet Context

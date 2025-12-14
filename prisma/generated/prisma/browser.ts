@@ -43,10 +43,11 @@ export type VerificationToken = Prisma.VerificationTokenModel
  */
 export type Wallet = Prisma.WalletModel
 /**
- * Model Transaction
- * Incoming transaction to a user's wallet
+ * Model TransactionMeta
+ * User metadata for transactions (labels, verification)
+ * Actual transaction data is fetched from Alchemy on demand
  */
-export type Transaction = Prisma.TransactionModel
+export type TransactionMeta = Prisma.TransactionMetaModel
 /**
  * Model VerifiedSender
  * Verified sender (company/entity that verified their address)

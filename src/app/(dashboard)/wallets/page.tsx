@@ -26,6 +26,7 @@ import { useAccount } from 'wagmi';
 import { Header } from '@/components/layout';
 import { useWallet } from '@/lib/wallet';
 import { useLinkedWallets } from '@/lib/hooks';
+import { logger } from '@/utils/logging';
 
 export default function WalletsPage() {
   const { address, isConnected, connect, disconnect } = useWallet();
@@ -127,7 +128,8 @@ export default function WalletsPage() {
     setPendingLink(true);
     try {
       await connect();
-    } catch (err) {
+    } catch (error) {
+      logger.error('Error linking new wallet', { error });
       setPendingLink(false);
       setError('Failed to connect wallet');
     }
@@ -140,7 +142,8 @@ export default function WalletsPage() {
       setPendingLink(true);
       try {
         await connect();
-      } catch (err) {
+      } catch (error) {
+        logger.error('Error linking current wallet', { error });
         setPendingLink(false);
         setError('Failed to connect wallet');
       }

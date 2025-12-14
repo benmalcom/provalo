@@ -118,6 +118,21 @@ export const globalStyles = {
     paddingInlineEnd: '16px !important',
   },
 
+  // Datepicker input overrides
+  '.chakra-popover__content input, [data-chakra-component="RangeDatepicker"] input, [data-chakra-component="SingleDatepicker"] input':
+    {
+      background: '#1a1a1a !important',
+      borderColor: '#333333 !important',
+      borderRadius: '12px !important',
+      color: '#e0e0e0 !important',
+    },
+  '.chakra-popover__content input:focus, [data-chakra-component="RangeDatepicker"] input:focus, [data-chakra-component="SingleDatepicker"] input:focus':
+    {
+      background: '#1a1a1a !important',
+      borderColor: '#00d9ff !important',
+      boxShadow: 'none !important',
+    },
+
   // Textarea padding fix
   'textarea, .chakra-textarea': {
     paddingInlineStart: '16px !important',

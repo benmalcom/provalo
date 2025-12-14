@@ -233,7 +233,7 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   wallets?: Prisma.WalletListRelationFilter
-  transactions?: Prisma.TransactionListRelationFilter
+  transactionMetas?: Prisma.TransactionMetaListRelationFilter
   reports?: Prisma.ReportListRelationFilter
 }
 
@@ -252,7 +252,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   wallets?: Prisma.WalletOrderByRelationAggregateInput
-  transactions?: Prisma.TransactionOrderByRelationAggregateInput
+  transactionMetas?: Prisma.TransactionMetaOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
 }
 
@@ -274,7 +274,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   wallets?: Prisma.WalletListRelationFilter
-  transactions?: Prisma.TransactionListRelationFilter
+  transactionMetas?: Prisma.TransactionMetaListRelationFilter
   reports?: Prisma.ReportListRelationFilter
 }, "id" | "email">
 
@@ -327,7 +327,7 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
 }
 
@@ -346,7 +346,7 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -365,7 +365,7 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
 }
 
@@ -384,7 +384,7 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -535,18 +535,18 @@ export type UserUpdateOneRequiredWithoutWalletsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletsInput, Prisma.UserUpdateWithoutWalletsInput>, Prisma.UserUncheckedUpdateWithoutWalletsInput>
 }
 
-export type UserCreateNestedOneWithoutTransactionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
+export type UserCreateNestedOneWithoutTransactionMetasInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionMetasInput, Prisma.UserUncheckedCreateWithoutTransactionMetasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionMetasInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput
-  upsert?: Prisma.UserUpsertWithoutTransactionsInput
+export type UserUpdateOneRequiredWithoutTransactionMetasNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionMetasInput, Prisma.UserUncheckedCreateWithoutTransactionMetasInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionMetasInput
+  upsert?: Prisma.UserUpsertWithoutTransactionMetasInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionMetasInput, Prisma.UserUpdateWithoutTransactionMetasInput>, Prisma.UserUncheckedUpdateWithoutTransactionMetasInput>
 }
 
 export type UserCreateNestedOneWithoutReportsInput = {
@@ -577,7 +577,7 @@ export type UserCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
 }
 
@@ -595,7 +595,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -629,7 +629,7 @@ export type UserUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
 }
 
@@ -647,7 +647,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -665,7 +665,7 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
 }
 
@@ -683,7 +683,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -717,7 +717,7 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
 }
 
@@ -735,7 +735,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -753,7 +753,7 @@ export type UserCreateWithoutWalletsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
 }
 
@@ -771,7 +771,7 @@ export type UserUncheckedCreateWithoutWalletsInput = {
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -805,7 +805,7 @@ export type UserUpdateWithoutWalletsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
 }
 
@@ -823,11 +823,11 @@ export type UserUncheckedUpdateWithoutWalletsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutTransactionsInput = {
+export type UserCreateWithoutTransactionMetasInput = {
   id?: string
   name?: string | null
   email: string
@@ -845,7 +845,7 @@ export type UserCreateWithoutTransactionsInput = {
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutTransactionsInput = {
+export type UserUncheckedCreateWithoutTransactionMetasInput = {
   id?: string
   name?: string | null
   email: string
@@ -863,23 +863,23 @@ export type UserUncheckedCreateWithoutTransactionsInput = {
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutTransactionsInput = {
+export type UserCreateOrConnectWithoutTransactionMetasInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionMetasInput, Prisma.UserUncheckedCreateWithoutTransactionMetasInput>
 }
 
-export type UserUpsertWithoutTransactionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>
+export type UserUpsertWithoutTransactionMetasInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionMetasInput, Prisma.UserUncheckedUpdateWithoutTransactionMetasInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransactionMetasInput, Prisma.UserUncheckedCreateWithoutTransactionMetasInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
+export type UserUpdateToOneWithWhereWithoutTransactionMetasInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionMetasInput, Prisma.UserUncheckedUpdateWithoutTransactionMetasInput>
 }
 
-export type UserUpdateWithoutTransactionsInput = {
+export type UserUpdateWithoutTransactionMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -897,7 +897,7 @@ export type UserUpdateWithoutTransactionsInput = {
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutTransactionsInput = {
+export type UserUncheckedUpdateWithoutTransactionMetasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -930,7 +930,7 @@ export type UserCreateWithoutReportsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReportsInput = {
@@ -948,7 +948,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
-  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReportsInput = {
@@ -982,7 +982,7 @@ export type UserUpdateWithoutReportsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReportsInput = {
@@ -1000,7 +1000,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
-  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput
+  transactionMetas?: Prisma.TransactionMetaUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1012,7 +1012,7 @@ export type UserCountOutputType = {
   accounts: number
   sessions: number
   wallets: number
-  transactions: number
+  transactionMetas: number
   reports: number
 }
 
@@ -1020,7 +1020,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   wallets?: boolean | UserCountOutputTypeCountWalletsArgs
-  transactions?: boolean | UserCountOutputTypeCountTransactionsArgs
+  transactionMetas?: boolean | UserCountOutputTypeCountTransactionMetasArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
 }
 
@@ -1058,8 +1058,8 @@ export type UserCountOutputTypeCountWalletsArgs<ExtArgs extends runtime.Types.Ex
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TransactionWhereInput
+export type UserCountOutputTypeCountTransactionMetasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionMetaWhereInput
 }
 
 /**
@@ -1085,7 +1085,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   wallets?: boolean | Prisma.User$walletsArgs<ExtArgs>
-  transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  transactionMetas?: boolean | Prisma.User$transactionMetasArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -1137,7 +1137,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   wallets?: boolean | Prisma.User$walletsArgs<ExtArgs>
-  transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>
+  transactionMetas?: boolean | Prisma.User$transactionMetasArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1150,7 +1150,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     wallets: Prisma.$WalletPayload<ExtArgs>[]
-    transactions: Prisma.$TransactionPayload<ExtArgs>[]
+    transactionMetas: Prisma.$TransactionMetaPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1562,7 +1562,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wallets<T extends Prisma.User$walletsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactionMetas<T extends Prisma.User$transactionMetasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionMetasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionMetaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2062,27 +2062,27 @@ export type User$walletsArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * User.transactions
+ * User.transactionMetas
  */
-export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$transactionMetasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Transaction
+   * Select specific fields to fetch from the TransactionMeta
    */
-  select?: Prisma.TransactionSelect<ExtArgs> | null
+  select?: Prisma.TransactionMetaSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Transaction
+   * Omit specific fields from the TransactionMeta
    */
-  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  omit?: Prisma.TransactionMetaOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TransactionInclude<ExtArgs> | null
-  where?: Prisma.TransactionWhereInput
-  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
-  cursor?: Prisma.TransactionWhereUniqueInput
+  include?: Prisma.TransactionMetaInclude<ExtArgs> | null
+  where?: Prisma.TransactionMetaWhereInput
+  orderBy?: Prisma.TransactionMetaOrderByWithRelationInput | Prisma.TransactionMetaOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionMetaWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+  distinct?: Prisma.TransactionMetaScalarFieldEnum | Prisma.TransactionMetaScalarFieldEnum[]
 }
 
 /**

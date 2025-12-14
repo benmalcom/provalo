@@ -22,19 +22,19 @@ model User {
   avatar        String?
 
   // Profile fields for statements/reports
-  displayName  String? // Name to show on generated statements
-  businessName String? // Optional business/company name
-  address      String? // Physical address for statements
-  phone        String? // Contact phone
+  displayName   String?   // Name to show on generated statements
+  businessName  String?   // Optional business/company name
+  address       String?   // Physical address for statements
+  phone         String?   // Contact phone
 
   // NextAuth relations
   accounts Account[]
   sessions Session[]
 
   // Provalo relations
-  wallets      Wallet[]
-  transactions Transaction[]
-  reports      Report[]
+  wallets          Wallet[]
+  transactionMetas TransactionMeta[]
+  reports          Report[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,10 +85,10 @@ model VerificationToken {
 
 /// Wallet linked to a user account
 model Wallet {
-  id      String  @id @default(cuid())
-  address String // 0x... checksummed address
-  chainId Int // Chain ID from connected wallet
-  label   String? // User-friendly label: "Main Wallet", "Freelance", etc.
+  id        String  @id @default(cuid())
+  address   String  // 0x... checksummed address
+  chainId   Int     // Chain ID from connected wallet
+  label     String? // User-friendly label: "Main Wallet", "Freelance", etc.
 
   // Proof of ownership
   signature  String // Signature proving ownership
@@ -96,9 +96,9 @@ model Wallet {
   verifiedAt DateTime @default(now())
 
   // Relations
-  userId       String
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transactions Transaction[]
+  userId           String
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactionMetas TransactionMeta[]
 
   createdAt DateTime @default(now())
 
@@ -106,29 +106,15 @@ model Wallet {
   @@index([userId])
 }
 
-/// Incoming transaction to a user's wallet
-model Transaction {
+/// User metadata for transactions (labels, verification)
+/// Actual transaction data is fetched from Alchemy on demand
+model TransactionMeta {
   id      String @id @default(cuid())
   txHash  String
   chainId Int
 
-  // Transaction details
-  fromAddress   String
-  toAddress     String
-  amount        String // Stored as string to preserve precision
-  tokenAddress  String
-  tokenSymbol   String
-  tokenDecimals Int
-
-  // USD conversion at time of transaction
-  amountUsd Float?
-  priceAtTx Float?
-  timestamp DateTime
-
-  // User labeling
-  userLabel String?
-
-  // Sender verification
+  // User additions (the only things we store)
+  userLabel        String?
   verifiedSenderId String?
   verifiedSender   VerifiedSender? @relation(fields: [verifiedSenderId], references: [id])
 
@@ -144,17 +130,15 @@ model Transaction {
   @@unique([txHash, chainId])
   @@index([userId])
   @@index([walletId])
-  @@index([fromAddress])
-  @@index([timestamp])
 }
 
 /// Verified sender (company/entity that verified their address)
 model VerifiedSender {
   id            String  @id @default(cuid())
-  address       String // The verified wallet address
-  chainId       Int // Chain ID for the address
+  address       String  // The verified wallet address
+  chainId       Int     // Chain ID for the address
   companyName   String
-  officialLabel String // e.g., "Acme Corp - Contract Payment"
+  officialLabel String  // e.g., "Acme Corp - Contract Payment"
   contactEmail  String
   logoUrl       String?
   isActive      Boolean @default(true)
@@ -164,7 +148,7 @@ model VerifiedSender {
   verifiedAt      DateTime @default(now())
 
   // Relations
-  transactions         Transaction[]
+  transactionMetas     TransactionMeta[]
   verificationRequests VerificationRequest[]
 
   createdAt DateTime @default(now())
@@ -223,12 +207,12 @@ model Report {
   template ReportTemplate @default(STANDARD)
 
   // Generated content
-  pdfUrl         String?
+  pdfUrl        String?
   transactionIds String // JSON array of transaction IDs included
 
   // Metadata
-  totalIncome      Float
-  totalVerified    Float
+  totalIncome    Float
+  totalVerified  Float
   transactionCount Int
 
   // Relations

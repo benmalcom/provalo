@@ -22,22 +22,33 @@ export function Header({ title }: HeaderProps) {
   return (
     <Box
       as="header"
-      h="64px"
+      h={{ base: 'auto', lg: '64px' }}
+      minH="56px"
       bg="bg.surface"
       borderBottom="1px solid"
       borderColor="border.muted"
       position="sticky"
-      top={0}
+      top={{ base: '64px', lg: 0 }}
       zIndex={10}
     >
-      <Flex h="full" align="center" justify="space-between" px={6}>
+      <Flex
+        h="full"
+        align="center"
+        justify="space-between"
+        px={{ base: 4, md: 6 }}
+        py={{ base: 3, lg: 0 }}
+      >
         {/* Page title */}
-        <Text fontSize="lg" fontWeight="600" color="text.primary">
+        <Text
+          fontSize={{ base: 'md', md: 'lg' }}
+          fontWeight="600"
+          color="text.primary"
+        >
           {title}
         </Text>
 
-        {/* User info */}
-        <Flex align="center" gap={3}>
+        {/* User info - hidden on mobile (shown in sidebar instead) */}
+        <Flex align="center" gap={3} display={{ base: 'none', md: 'flex' }}>
           <Box textAlign="right">
             <Text fontSize="sm" fontWeight="500" color="text.primary">
               {displayName}

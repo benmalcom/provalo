@@ -389,7 +389,7 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Wallet: 'Wallet',
-  Transaction: 'Transaction',
+  TransactionMeta: 'TransactionMeta',
   VerifiedSender: 'VerifiedSender',
   VerificationRequest: 'VerificationRequest',
   Report: 'Report'
@@ -408,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "wallet" | "transaction" | "verifiedSender" | "verificationRequest" | "report"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "wallet" | "transactionMeta" | "verifiedSender" | "verificationRequest" | "report"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -782,77 +782,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Transaction: {
-      payload: Prisma.$TransactionPayload<ExtArgs>
-      fields: Prisma.TransactionFieldRefs
+    TransactionMeta: {
+      payload: Prisma.$TransactionMetaPayload<ExtArgs>
+      fields: Prisma.TransactionMetaFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.TransactionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload> | null
+          args: Prisma.TransactionMetaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.TransactionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         findFirst: {
-          args: Prisma.TransactionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload> | null
+          args: Prisma.TransactionMetaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.TransactionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         findMany: {
-          args: Prisma.TransactionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>[]
+          args: Prisma.TransactionMetaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>[]
         }
         create: {
-          args: Prisma.TransactionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         createMany: {
-          args: Prisma.TransactionCreateManyArgs<ExtArgs>
+          args: Prisma.TransactionMetaCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.TransactionCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>[]
+          args: Prisma.TransactionMetaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>[]
         }
         delete: {
-          args: Prisma.TransactionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         update: {
-          args: Prisma.TransactionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         deleteMany: {
-          args: Prisma.TransactionDeleteManyArgs<ExtArgs>
+          args: Prisma.TransactionMetaDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.TransactionUpdateManyArgs<ExtArgs>
+          args: Prisma.TransactionMetaUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.TransactionUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>[]
+          args: Prisma.TransactionMetaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>[]
         }
         upsert: {
-          args: Prisma.TransactionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionPayload>
+          args: Prisma.TransactionMetaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransactionMetaPayload>
         }
         aggregate: {
-          args: Prisma.TransactionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTransaction>
+          args: Prisma.TransactionMetaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransactionMeta>
         }
         groupBy: {
-          args: Prisma.TransactionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TransactionGroupByOutputType>[]
+          args: Prisma.TransactionMetaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransactionMetaGroupByOutputType>[]
         }
         count: {
-          args: Prisma.TransactionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.TransactionCountAggregateOutputType> | number
+          args: Prisma.TransactionMetaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransactionMetaCountAggregateOutputType> | number
         }
       }
     }
@@ -1183,19 +1183,10 @@ export const WalletScalarFieldEnum = {
 export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
 
 
-export const TransactionScalarFieldEnum = {
+export const TransactionMetaScalarFieldEnum = {
   id: 'id',
   txHash: 'txHash',
   chainId: 'chainId',
-  fromAddress: 'fromAddress',
-  toAddress: 'toAddress',
-  amount: 'amount',
-  tokenAddress: 'tokenAddress',
-  tokenSymbol: 'tokenSymbol',
-  tokenDecimals: 'tokenDecimals',
-  amountUsd: 'amountUsd',
-  priceAtTx: 'priceAtTx',
-  timestamp: 'timestamp',
   userLabel: 'userLabel',
   verifiedSenderId: 'verifiedSenderId',
   userId: 'userId',
@@ -1204,7 +1195,7 @@ export const TransactionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+export type TransactionMetaScalarFieldEnum = (typeof TransactionMetaScalarFieldEnum)[keyof typeof TransactionMetaScalarFieldEnum]
 
 
 export const VerifiedSenderScalarFieldEnum = {
@@ -1308,13 +1299,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
 
 
 /**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -1332,6 +1316,13 @@ export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
  * Reference to a field of type 'ReportTemplate'
  */
 export type EnumReportTemplateFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportTemplate'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 /**
@@ -1434,7 +1425,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit
   wallet?: Prisma.WalletOmit
-  transaction?: Prisma.TransactionOmit
+  transactionMeta?: Prisma.TransactionMetaOmit
   verifiedSender?: Prisma.VerifiedSenderOmit
   verificationRequest?: Prisma.VerificationRequestOmit
   report?: Prisma.ReportOmit

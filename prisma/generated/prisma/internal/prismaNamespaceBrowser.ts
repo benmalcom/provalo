@@ -56,7 +56,7 @@ export const ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Wallet: 'Wallet',
-  Transaction: 'Transaction',
+  TransactionMeta: 'TransactionMeta',
   VerifiedSender: 'VerifiedSender',
   VerificationRequest: 'VerificationRequest',
   Report: 'Report'
@@ -144,19 +144,10 @@ export const WalletScalarFieldEnum = {
 export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
 
 
-export const TransactionScalarFieldEnum = {
+export const TransactionMetaScalarFieldEnum = {
   id: 'id',
   txHash: 'txHash',
   chainId: 'chainId',
-  fromAddress: 'fromAddress',
-  toAddress: 'toAddress',
-  amount: 'amount',
-  tokenAddress: 'tokenAddress',
-  tokenSymbol: 'tokenSymbol',
-  tokenDecimals: 'tokenDecimals',
-  amountUsd: 'amountUsd',
-  priceAtTx: 'priceAtTx',
-  timestamp: 'timestamp',
   userLabel: 'userLabel',
   verifiedSenderId: 'verifiedSenderId',
   userId: 'userId',
@@ -165,7 +156,7 @@ export const TransactionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+export type TransactionMetaScalarFieldEnum = (typeof TransactionMetaScalarFieldEnum)[keyof typeof TransactionMetaScalarFieldEnum]
 
 
 export const VerifiedSenderScalarFieldEnum = {
