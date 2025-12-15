@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3007",
-    "build": "prisma generate && node scripts/db-push.mjs && next build",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
