@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { SessionProvider } from 'next-auth/react';
 import { AppKitProvider } from '@/lib/wallet';
 import { system } from '@/theme';
+import { UserProvider } from '@/contexts';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -23,7 +24,9 @@ export function Providers({ children, cookies }: ProvidersProps) {
   return (
     <SessionProvider>
       <ChakraProvider value={system}>
-        <AppKitProvider cookies={cookies}>{children}</AppKitProvider>
+        <AppKitProvider cookies={cookies}>
+          <UserProvider>{children}</UserProvider>
+        </AppKitProvider>
       </ChakraProvider>
     </SessionProvider>
   );

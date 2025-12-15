@@ -15,17 +15,18 @@ const nextConfig = {
     remotePatterns: [],
   },
 
-  // Fix for @libsql/client
+  // Fix for @libsql/client and pdfkit
   serverExternalPackages: [
     '@libsql/client',
     '@prisma/adapter-libsql',
     'libsql',
+    'pdfkit',
   ],
 
   webpack: (config, { isServer }) => {
     // Reown AppKit recommended externals
     config.externals.push('pino-pretty', 'lokijs', 'encoding');
-
+    
     // Fix for porto connector issue in @wagmi/connectors
     config.externals.push('porto');
 
@@ -46,6 +47,8 @@ const nextConfig = {
       'react-native-get-random-values': false,
       'react-native-webview': false,
       'react-native-crypto': false,
+      // Fix for @reown/appkit-adapter-wagmi porto module not found
+      'porto/internal': false,
     };
 
     // Exclude Playwright and test dependencies from client bundle

@@ -1,441 +1,418 @@
 'use client';
 
-import { ProvaloLogo } from '@/components/ui/ProvaloLogo';
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  HStack,
+  Grid,
+  Container,
+  Link as ChakraLink,
+} from '@chakra-ui/react';
+import {
+  LuWallet,
+  LuShieldCheck,
+  LuFileText,
+  LuArrowRight,
+  LuCheck,
+} from 'react-icons/lu';
+import NextLink from 'next/link';
+import { Logo } from '@/components/ui/Logo';
 
-export default function LogoShowcase() {
+// Feature card component
+function FeatureCard({
+  icon: Icon,
+  step,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  step: string;
+  title: string;
+  description: string;
+}) {
   return (
-    <div
-      style={{
-        background: '#0A0E14',
-        minHeight: '100vh',
-        padding: '48px',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+    <Flex
+      direction="column"
+      p={6}
+      bg="rgba(255, 255, 255, 0.02)"
+      borderRadius="16px"
+      border="1px solid"
+      borderColor="rgba(255, 255, 255, 0.06)"
+      position="relative"
+      overflow="hidden"
+      transition="all 0.3s ease"
+      _hover={{
+        bg: 'rgba(255, 255, 255, 0.04)',
+        borderColor: 'rgba(6, 182, 212, 0.3)',
+        transform: 'translateY(-4px)',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: '48px' }}>
-          <h1
-            style={{
-              color: '#F9FAFB',
-              fontSize: '32px',
-              fontWeight: '700',
-              marginBottom: '8px',
-            }}
-          >
-            Provalo Brand Assets
-          </h1>
-          <p style={{ color: '#9CA3AF', fontSize: '16px' }}>
-            Professional crypto income verification - refined color palette &
-            logo
-          </p>
-        </div>
+      {/* Step number */}
+      <Text
+        fontSize="xs"
+        fontWeight="600"
+        color="primary.500"
+        letterSpacing="0.1em"
+        textTransform="uppercase"
+        mb={4}
+      >
+        {step}
+      </Text>
 
-        {/* Logo Variants */}
-        <div
-          style={{
-            background: '#141922',
-            borderRadius: '12px',
-            padding: '32px',
-            marginBottom: '32px',
-          }}
-        >
-          <h2
-            style={{
-              color: '#F9FAFB',
-              fontSize: '20px',
-              fontWeight: '600',
-              marginBottom: '24px',
-            }}
-          >
-            Logo Variants
-          </h2>
+      {/* Icon */}
+      <Flex
+        w={11}
+        h={11}
+        bg="rgba(6, 182, 212, 0.1)"
+        border="1px solid"
+        borderColor="rgba(6, 182, 212, 0.2)"
+        borderRadius="12px"
+        align="center"
+        justify="center"
+        mb={4}
+      >
+        <Icon size={20} color="#06B6D4" />
+      </Flex>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '32px',
-            }}
-          >
-            {/* Full Logo */}
-            <div>
-              <div
-                style={{
-                  background: '#1A2028',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '12px',
-                }}
+      {/* Content */}
+      <Text fontWeight="600" fontSize="md" color="white" mb={2}>
+        {title}
+      </Text>
+      <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" lineHeight="1.7">
+        {description}
+      </Text>
+    </Flex>
+  );
+}
+
+// Use case pill
+function UseCasePill({ emoji, label }: { emoji: string; label: string }) {
+  return (
+    <Flex
+      align="center"
+      gap={2}
+      bg="rgba(255, 255, 255, 0.03)"
+      borderRadius="full"
+      px={4}
+      py={2}
+      border="1px solid"
+      borderColor="rgba(255, 255, 255, 0.06)"
+      transition="all 0.2s"
+      _hover={{
+        bg: 'rgba(255, 255, 255, 0.06)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+      }}
+    >
+      <Text fontSize="lg">{emoji}</Text>
+      <Text fontSize="sm" color="rgba(255, 255, 255, 0.7)" fontWeight="500">
+        {label}
+      </Text>
+    </Flex>
+  );
+}
+
+// Trust badge
+function TrustBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <HStack gap={2} color="rgba(255, 255, 255, 0.4)" fontSize="sm">
+      <Box color="primary.500">
+        <LuCheck size={14} strokeWidth={3} />
+      </Box>
+      <Text>{children}</Text>
+    </HStack>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Box bg="#050505" minH="100vh" color="white" position="relative">
+      {/* Subtle gradient background */}
+      <Box
+        position="absolute"
+        top="0"
+        left="50%"
+        transform="translateX(-50%)"
+        width="100%"
+        maxW="1200px"
+        height="600px"
+        background="radial-gradient(ellipse at top, rgba(6, 182, 212, 0.08) 0%, transparent 60%)"
+        pointerEvents="none"
+      />
+
+      {/* Navigation */}
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        zIndex={100}
+        bg="rgba(5, 5, 5, 0.8)"
+        backdropFilter="blur(20px)"
+        borderBottom="1px solid"
+        borderColor="rgba(255, 255, 255, 0.05)"
+      >
+        <Container maxW="5xl">
+          <Flex h={16} align="center" justify="space-between">
+            <Logo size="sm" />
+
+            <HStack gap={2}>
+              <Button
+                asChild
+                variant="ghost"
+                color="rgba(255, 255, 255, 0.6)"
+                size="sm"
+                fontWeight="500"
+                _hover={{ color: 'white', bg: 'rgba(255, 255, 255, 0.05)' }}
               >
-                <ProvaloLogo size={40} variant="full" />
-              </div>
-              <p
-                style={{
-                  color: '#9CA3AF',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
+                <NextLink href="/login">Sign In</NextLink>
+              </Button>
+              <Button
+                asChild
+                bg="primary.500"
+                color="white"
+                size="sm"
+                fontWeight="600"
+                _hover={{ bg: 'primary.400' }}
               >
-                Full Logo
-              </p>
-            </div>
+                <NextLink href="/register">Get Started</NextLink>
+              </Button>
+            </HStack>
+          </Flex>
+        </Container>
+      </Box>
 
-            {/* Icon Only - Medium */}
-            <div>
-              <div
-                style={{
-                  background: '#1A2028',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <ProvaloLogo size={40} variant="icon" />
-              </div>
-              <p
-                style={{
-                  color: '#9CA3AF',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                Icon Only (40px)
-              </p>
-            </div>
-
-            {/* Icon Only - Small */}
-            <div>
-              <div
-                style={{
-                  background: '#1A2028',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <ProvaloLogo size={24} variant="icon" />
-              </div>
-              <p
-                style={{
-                  color: '#9CA3AF',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                Icon Only (24px)
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Color Palette */}
-        <div
-          style={{
-            background: '#141922',
-            borderRadius: '12px',
-            padding: '32px',
-            marginBottom: '32px',
-          }}
-        >
-          <h2
-            style={{
-              color: '#F9FAFB',
-              fontSize: '20px',
-              fontWeight: '600',
-              marginBottom: '24px',
-            }}
-          >
-            Color Palette
-          </h2>
-
-          <div style={{ display: 'grid', gap: '24px' }}>
-            {/* Primary Colors */}
-            <div>
-              <h3
-                style={{
-                  color: '#F9FAFB',
-                  fontSize: '16px',
-                  marginBottom: '12px',
-                }}
-              >
-                Primary (Trust & Professional)
-              </h3>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['#06B6D4', '#0891B2', '#0E7490', '#155E75'].map(color => (
-                  <div key={color} style={{ textAlign: 'center' }}>
-                    <div
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        background: color,
-                        borderRadius: '8px',
-                        marginBottom: '8px',
-                      }}
-                    />
-                    <p
-                      style={{
-                        color: '#9CA3AF',
-                        fontSize: '12px',
-                        fontFamily: 'monospace',
-                      }}
-                    >
-                      {color}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Success Colors */}
-            <div>
-              <h3
-                style={{
-                  color: '#F9FAFB',
-                  fontSize: '16px',
-                  marginBottom: '12px',
-                }}
-              >
-                Success (Verified Badge)
-              </h3>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['#10B981', '#059669', '#047857'].map(color => (
-                  <div key={color} style={{ textAlign: 'center' }}>
-                    <div
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        background: color,
-                        borderRadius: '8px',
-                        marginBottom: '8px',
-                      }}
-                    />
-                    <p
-                      style={{
-                        color: '#9CA3AF',
-                        fontSize: '12px',
-                        fontFamily: 'monospace',
-                      }}
-                    >
-                      {color}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Accent Colors */}
-            <div>
-              <h3
-                style={{
-                  color: '#F9FAFB',
-                  fontSize: '16px',
-                  marginBottom: '12px',
-                }}
-              >
-                Accent (Premium & Highlights)
-              </h3>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['#F59E0B', '#D97706', '#B45309'].map(color => (
-                  <div key={color} style={{ textAlign: 'center' }}>
-                    <div
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        background: color,
-                        borderRadius: '8px',
-                        marginBottom: '8px',
-                      }}
-                    />
-                    <p
-                      style={{
-                        color: '#9CA3AF',
-                        fontSize: '12px',
-                        fontFamily: 'monospace',
-                      }}
-                    >
-                      {color}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Surface Colors */}
-            <div>
-              <h3
-                style={{
-                  color: '#F9FAFB',
-                  fontSize: '16px',
-                  marginBottom: '12px',
-                }}
-              >
-                Surfaces (Dark Mode)
-              </h3>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {[
-                  { color: '#0A0E14', label: 'Base' },
-                  { color: '#141922', label: 'Elevated' },
-                  { color: '#1A2028', label: 'Hover' },
-                  { color: '#2D3748', label: 'Border' },
-                ].map(({ color, label }) => (
-                  <div key={color} style={{ textAlign: 'center' }}>
-                    <div
-                      style={{
-                        width: '80px',
-                        height: '80px',
-                        background: color,
-                        borderRadius: '8px',
-                        marginBottom: '8px',
-                        border: '1px solid #2D3748',
-                      }}
-                    />
-                    <p style={{ color: '#9CA3AF', fontSize: '12px' }}>
-                      {label}
-                    </p>
-                    <p
-                      style={{
-                        color: '#6B7280',
-                        fontSize: '11px',
-                        fontFamily: 'monospace',
-                      }}
-                    >
-                      {color}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Usage Examples */}
-        <div
-          style={{
-            background: '#141922',
-            borderRadius: '12px',
-            padding: '32px',
-          }}
-        >
-          <h2
-            style={{
-              color: '#F9FAFB',
-              fontSize: '20px',
-              fontWeight: '600',
-              marginBottom: '24px',
-            }}
-          >
-            Usage Examples
-          </h2>
-
-          {/* Verified Badge */}
-          <div style={{ marginBottom: '24px' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(16, 185, 129, 0.1)',
-                border: '1px solid #10B981',
-                borderRadius: '6px',
-                padding: '6px 12px',
-              }}
+      {/* Hero Section */}
+      <Box
+        pt={{ base: 32, md: 44 }}
+        pb={{ base: 20, md: 32 }}
+        position="relative"
+      >
+        <Container maxW="3xl">
+          <Flex direction="column" align="center" textAlign="center" gap={6}>
+            {/* Headline */}
+            <Text
+              fontSize={{ base: '2.5rem', sm: '3rem', md: '3.75rem' }}
+              fontWeight="700"
+              lineHeight="1.1"
+              letterSpacing="-0.04em"
+              color="white"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M5 8L7 10L11 6"
-                  stroke="#10B981"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span
-                style={{
-                  color: '#10B981',
-                  fontSize: '14px',
-                  fontWeight: '500',
+              Prove your{' '}
+              <Text as="span" color="primary.400" position="relative">
+                crypto income
+              </Text>
+            </Text>
+
+            {/* Subheadline */}
+            <Text
+              fontSize={{ base: 'md', md: 'lg' }}
+              color="rgba(255, 255, 255, 0.5)"
+              maxW="md"
+              lineHeight="1.8"
+              fontWeight="400"
+            >
+              Turn blockchain transactions into verified financial documents
+              that banks, landlords, and institutions actually trust.
+            </Text>
+
+            {/* CTA */}
+            <Box pt={4}>
+              <Button
+                asChild
+                bg="white"
+                color="#0a0a0a"
+                size="lg"
+                px={8}
+                h={12}
+                fontSize="sm"
+                fontWeight="600"
+                borderRadius="full"
+                _hover={{
+                  bg: 'rgba(255, 255, 255, 0.9)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 30px rgba(6, 182, 212, 0.3)',
                 }}
+                transition="all 0.2s ease"
               >
-                Verified by acme.com
-              </span>
-            </div>
-          </div>
+                <NextLink href="/register">
+                  Start for free
+                  <LuArrowRight style={{ marginLeft: 8 }} />
+                </NextLink>
+              </Button>
+            </Box>
 
-          {/* Primary Button */}
-          <div style={{ marginBottom: '24px' }}>
-            <button
-              style={{
-                background: '#06B6D4',
-                color: '#F9FAFB',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '12px 24px',
-                fontSize: '16px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-              }}
-              onMouseOver={e => (e.currentTarget.style.background = '#0891B2')}
-              onMouseOut={e => (e.currentTarget.style.background = '#06B6D4')}
+            {/* Trust badges */}
+            <HStack
+              gap={{ base: 4, md: 8 }}
+              pt={8}
+              flexWrap="wrap"
+              justify="center"
             >
-              Generate Report
-            </button>
-          </div>
+              <TrustBadge>No private keys needed</TrustBadge>
+              <TrustBadge>2 free reports/month</TrustBadge>
+              <TrustBadge>Multi-chain support</TrustBadge>
+            </HStack>
+          </Flex>
+        </Container>
+      </Box>
 
-          {/* Card Example */}
-          <div
-            style={{
-              background: '#1A2028',
-              border: '1px solid #2D3748',
-              borderRadius: '12px',
-              padding: '24px',
-              maxWidth: '400px',
-            }}
+      {/* Features Section */}
+      <Box py={{ base: 16, md: 24 }}>
+        <Container maxW="4xl">
+          <Flex direction="column" align="center" gap={12}>
+            <Text
+              fontSize="sm"
+              fontWeight="600"
+              color="rgba(255, 255, 255, 0.4)"
+              letterSpacing="0.15em"
+              textTransform="uppercase"
+            >
+              How it works
+            </Text>
+
+            <Grid
+              templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+              gap={5}
+              w="full"
+            >
+              <FeatureCard
+                icon={LuWallet}
+                step="Step 1"
+                title="Connect your wallet"
+                description="Sign a message to link your wallet. We fetch your incoming transactions automatically."
+              />
+              <FeatureCard
+                icon={LuShieldCheck}
+                step="Step 2"
+                title="Verify your senders"
+                description="Request verification from payers. Verified payments get labeled automatically."
+              />
+              <FeatureCard
+                icon={LuFileText}
+                step="Step 3"
+                title="Generate reports"
+                description="Create professional PDFs with QR verification codes for instant authenticity checks."
+              />
+            </Grid>
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* Use Cases */}
+      <Box py={{ base: 16, md: 24 }}>
+        <Container maxW="3xl">
+          <Flex direction="column" align="center" gap={8}>
+            <Text
+              fontSize="sm"
+              fontWeight="600"
+              color="rgba(255, 255, 255, 0.4)"
+              letterSpacing="0.15em"
+              textTransform="uppercase"
+            >
+              Built for
+            </Text>
+
+            <Flex flexWrap="wrap" gap={3} justify="center">
+              <UseCasePill emoji="🌍" label="Visa applications" />
+              <UseCasePill emoji="🏠" label="Rental applications" />
+              <UseCasePill emoji="🏦" label="Loan applications" />
+              <UseCasePill emoji="📊" label="Tax documentation" />
+              <UseCasePill emoji="💼" label="Employment verification" />
+            </Flex>
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* CTA Section */}
+      <Box py={{ base: 20, md: 32 }}>
+        <Container maxW="2xl">
+          <Flex
+            direction="column"
+            align="center"
+            textAlign="center"
+            gap={6}
+            p={{ base: 10, md: 14 }}
+            bg="rgba(255, 255, 255, 0.02)"
+            borderRadius="24px"
+            border="1px solid"
+            borderColor="rgba(255, 255, 255, 0.06)"
+            position="relative"
+            overflow="hidden"
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '16px',
-              }}
+            {/* Subtle glow */}
+            <Box
+              position="absolute"
+              top="-50%"
+              left="50%"
+              transform="translateX(-50%)"
+              width="400px"
+              height="400px"
+              background="radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%)"
+              pointerEvents="none"
+            />
+
+            <Text
+              fontSize={{ base: 'xl', md: '2xl' }}
+              fontWeight="600"
+              position="relative"
             >
-              <ProvaloLogo size={32} variant="icon" />
-              <div>
-                <h3
-                  style={{
-                    color: '#F9FAFB',
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    marginBottom: '4px',
-                  }}
-                >
-                  Income Report
-                </h3>
-                <p style={{ color: '#9CA3AF', fontSize: '14px' }}>
-                  PV-2024-A8K92J
-                </p>
-              </div>
-            </div>
-            <div
-              style={{ color: '#6B7280', fontSize: '14px', lineHeight: '1.6' }}
+              Ready to prove your income?
+            </Text>
+            <Text
+              color="rgba(255, 255, 255, 0.5)"
+              fontSize="sm"
+              maxW="sm"
+              position="relative"
             >
-              Professional crypto income verification for banks, landlords, and
-              immigration.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              Join crypto freelancers, DAO contributors, and remote workers who
+              document their income with Provalo.
+            </Text>
+            <Button
+              asChild
+              bg="primary.500"
+              color="white"
+              size="lg"
+              px={8}
+              fontWeight="600"
+              borderRadius="full"
+              _hover={{ bg: 'primary.400' }}
+              position="relative"
+            >
+              <NextLink href="/register">Get started free</NextLink>
+            </Button>
+            <Text
+              fontSize="xs"
+              color="rgba(255, 255, 255, 0.3)"
+              position="relative"
+            >
+              No credit card required
+            </Text>
+          </Flex>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box py={8} borderTop="1px solid" borderColor="rgba(255, 255, 255, 0.05)">
+        <Container maxW="5xl">
+          <Flex
+            direction={{ base: 'column', sm: 'row' }}
+            justify="space-between"
+            align="center"
+            gap={4}
+          >
+            <Logo size="sm" />
+
+            <HStack gap={6} color="rgba(255, 255, 255, 0.4)" fontSize="sm">
+              <ChakraLink asChild _hover={{ color: 'white' }}>
+                <NextLink href="/login">Sign In</NextLink>
+              </ChakraLink>
+              <Text>© {new Date().getFullYear()} Provalo</Text>
+            </HStack>
+          </Flex>
+        </Container>
+      </Box>
+    </Box>
   );
 }

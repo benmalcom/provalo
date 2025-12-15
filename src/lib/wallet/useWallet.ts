@@ -1,7 +1,5 @@
-
 import { useContext } from 'react';
-import { WalletContext } from './WalletProvider';
-import type { UseWalletReturn } from './types';
+import { WalletContext, type UseWalletReturn } from './WalletProvider';
 
 /**
  * Hook to access wallet state and actions
@@ -14,10 +12,8 @@ import type { UseWalletReturn } from './types';
  *   await wallet.connect();
  * }
  *
- * const usdc = wallet.getToken('USDC');
- * if (usdc && usdc.hasBalance(amount)) {
- *   await usdc.approve(spender, amount);
- * }
+ * // Sign a message for wallet verification
+ * const signature = await wallet.signMessage('Link wallet to Provalo');
  * ```
  */
 export function useWallet(): UseWalletReturn {
@@ -26,7 +22,7 @@ export function useWallet(): UseWalletReturn {
   if (!context) {
     throw new Error(
       'useWallet must be used within WalletProvider. ' +
-      'Make sure your app is wrapped with <WalletProvider>.'
+        'Make sure your app is wrapped with <AppKitProvider>.'
     );
   }
 

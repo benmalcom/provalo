@@ -32,7 +32,7 @@ if (!projectId) {
 /**
  * Environment configuration
  */
-export const IS_TESTNET = process.env.NEXT_PUBLIC_NETWORK_MODE === 'testnet';
+export const IS_TESTNET = process.env.NEXT_PUBLIC_NETWORK === 'testnet';
 
 /**
  * Supported networks - testnets first, then mainnets

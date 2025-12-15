@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const fs = require('fs');
+import fs from 'fs';
 
 function isClaudeComment(line) {
   return /^\/\/\s*([\w./-]+\.(js|ts|tsx|jsx))$/.test(line);

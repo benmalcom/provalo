@@ -5,7 +5,6 @@
 export { useLinkedWallets } from './useLinkedWallets';
 export type { LinkedWallet } from './useLinkedWallets';
 
-export { useUserProfile } from './useUserProfile';
 export type { UserProfile, UpdateProfileData } from './useUserProfile';
 
 export {
@@ -19,3 +18,6 @@ export type {
   TransactionFilters,
   TransactionSummary,
 } from './useTransactions';
+
+export { useReports } from './useReports';
+export type { Report, CreateReportData } from './useReports';

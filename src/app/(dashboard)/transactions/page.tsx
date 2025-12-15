@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Box,
   Flex,
@@ -15,20 +16,31 @@ import {
   Spinner,
   Popover,
 } from '@chakra-ui/react';
+import { Toaster, toaster } from '@/components/ui/toaster';
 import {
   LuRefreshCw,
   LuExternalLink,
   LuInbox,
   LuFileText,
   LuTag,
+  LuFilter,
+  LuChevronDown,
+  LuChevronUp,
 } from 'react-icons/lu';
 import { FaCheckCircle, FaCircle } from 'react-icons/fa';
 import { Header } from '@/components/layout';
-import { CustomSelect } from '@/components/ui/CustomSelect';
-import { DateRangePicker } from '@/components/ui/DatePicker';
+import {
+  TransactionFilters,
+  ClientFilters,
+  GenerateReportModal,
+  TEMPLATE_OPTIONS,
+  type FilterState,
+  type TemplateOption,
+} from '@/components/transactions';
 import {
   useTransactions,
   useLinkedWallets,
+  useReports,
   formatTransactionAmount,
   formatUsdAmount,
   shortenAddress,
@@ -212,12 +224,35 @@ interface WalletOption {
   subLabel?: string;
 }
 
+const DEFAULT_FILTERS: FilterState = {
+  hideZeroAmounts: true,
+  showVerifiedOnly: false,
+  showLabeledOnly: false,
+  showUnlabeledOnly: false,
+  minAmount: '',
+  maxAmount: '',
+};
+
 export default function TransactionsPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedWalletId, setSelectedWalletId] = useState<string | undefined>(
     undefined
   );
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+
+  // Filter states
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const [appliedFilters, setAppliedFilters] =
+    useState<FilterState>(DEFAULT_FILTERS);
+
+  // Report generation modal state
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportTitle, setReportTitle] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateOption>(
+    TEMPLATE_OPTIONS[0]
+  );
 
   // Get linked wallets
   const { wallets, isLoading: walletsLoading } = useLinkedWallets();
@@ -233,7 +268,37 @@ export default function TransactionsPage() {
     refreshTransactions,
   } = useTransactions({ walletId: selectedWalletId });
 
+  // Reports hook for creating reports
+  const { createReport, isCreating } = useReports();
+
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Filter handlers
+  const handleFilterChange = (
+    key: keyof FilterState,
+    value: boolean | string
+  ) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const applyFilters = () => {
+    setAppliedFilters(filters);
+  };
+
+  const resetFilters = () => {
+    setFilters(DEFAULT_FILTERS);
+    setAppliedFilters(DEFAULT_FILTERS);
+  };
+
+  // Count active filters
+  const activeFilterCount = [
+    appliedFilters.hideZeroAmounts,
+    appliedFilters.showVerifiedOnly,
+    appliedFilters.showLabeledOnly,
+    appliedFilters.showUnlabeledOnly,
+    appliedFilters.minAmount !== '',
+    appliedFilters.maxAmount !== '',
+  ].filter(Boolean).length;
 
   // Build wallet options for select
   const walletOptions: WalletOption[] = [
@@ -282,83 +347,167 @@ export default function TransactionsPage() {
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      return (
+      const matchesSearch =
         tx.fromAddress.toLowerCase().includes(query) ||
         tx.userLabel?.toLowerCase().includes(query) ||
         tx.tokenSymbol.toLowerCase().includes(query) ||
-        tx.verifiedSender?.companyName.toLowerCase().includes(query)
-      );
+        tx.verifiedSender?.companyName.toLowerCase().includes(query);
+      if (!matchesSearch) return false;
+    }
+
+    // Hide zero amounts
+    if (
+      appliedFilters.hideZeroAmounts &&
+      (tx.amountUsd === 0 || tx.amountUsd === null)
+    ) {
+      return false;
+    }
+
+    // Show verified only
+    if (appliedFilters.showVerifiedOnly && !tx.verifiedSender) {
+      return false;
+    }
+
+    // Show labeled only
+    if (appliedFilters.showLabeledOnly && !tx.userLabel) {
+      return false;
+    }
+
+    // Show unlabeled only
+    if (appliedFilters.showUnlabeledOnly && tx.userLabel) {
+      return false;
+    }
+
+    // Min amount filter
+    if (appliedFilters.minAmount !== '') {
+      const min = parseFloat(appliedFilters.minAmount);
+      if (!isNaN(min) && (tx.amountUsd || 0) < min) {
+        return false;
+      }
+    }
+
+    // Max amount filter
+    if (appliedFilters.maxAmount !== '') {
+      const max = parseFloat(appliedFilters.maxAmount);
+      if (!isNaN(max) && (tx.amountUsd || 0) > max) {
+        return false;
+      }
     }
 
     return true;
   });
+
+  // Calculate filtered summary for report
+  const filteredSummary = {
+    totalIncome: filteredTransactions.reduce(
+      (sum, tx) => sum + (tx.amountUsd || 0),
+      0
+    ),
+    verifiedIncome: filteredTransactions
+      .filter(tx => tx.verifiedSender)
+      .reduce((sum, tx) => sum + (tx.amountUsd || 0), 0),
+    verifiedCount: filteredTransactions.filter(tx => tx.verifiedSender).length,
+  };
+
+  const handleGenerateReport = async () => {
+    if (filteredTransactions.length === 0) return;
+
+    // Determine date range
+    const txDates = filteredTransactions.map(tx => new Date(tx.timestamp));
+    const reportDateFrom =
+      dateFrom || new Date(Math.min(...txDates.map(d => d.getTime())));
+    const reportDateTo =
+      dateTo || new Date(Math.max(...txDates.map(d => d.getTime())));
+
+    const report = await createReport({
+      title: reportTitle || undefined,
+      dateFrom: reportDateFrom,
+      dateTo: reportDateTo,
+      template: selectedTemplate.value,
+      walletId: selectedWalletId,
+      transactionIds: filteredTransactions.map(tx => tx.txHash),
+      totalIncome: filteredSummary.totalIncome,
+      totalVerified: filteredSummary.verifiedIncome,
+      transactionCount: filteredTransactions.length,
+    });
+
+    if (report) {
+      toaster.create({
+        title: 'Report generated',
+        description: `Report ${report.reportId} has been created`,
+        type: 'success',
+      });
+      setShowReportModal(false);
+      setReportTitle('');
+      // Navigate to reports page
+      router.push('/reports');
+    } else {
+      toaster.create({
+        title: 'Failed to generate report',
+        description: 'Please try again',
+        type: 'error',
+      });
+    }
+  };
 
   return (
     <Box minH="100vh" overflowX="hidden">
       <Header title="Transactions" />
 
       <Box p={{ base: 4, md: 6 }} overflowX="auto">
-        {/* Filters and Actions */}
+        {/* Top row: Wallet (server filter), Filter Toggle, Actions */}
         <Flex
           gap={{ base: 3, md: 4 }}
-          mb={6}
+          mb={4}
           direction={{ base: 'column', lg: 'row' }}
           justify="space-between"
           align={{ base: 'stretch', lg: 'center' }}
         >
           <Flex gap={3} flex={1} flexWrap="wrap" align="center">
-            {/* Wallet Selector */}
-            <Box
-              minW={{ base: '100%', sm: '180px' }}
-              maxW={{ base: '100%', sm: '220px' }}
-            >
-              <CustomSelect<WalletOption>
-                value={selectedWalletOption}
-                onChange={option => setSelectedWalletId(option?.value)}
-                options={walletOptions}
-                placeholder="Select wallet..."
-                isSearchable={false}
-                getOptionLabel={option => option.label}
-                formatOptionLabel={(option, { context }) =>
-                  context === 'menu' ? (
-                    <Box>
-                      <Text fontSize="sm">{option.label}</Text>
-                      {option.subLabel && (
-                        <Text fontSize="xs" color="text.tertiary">
-                          {option.subLabel}
-                        </Text>
-                      )}
-                    </Box>
-                  ) : (
-                    <Text fontSize="sm">{option.label}</Text>
-                  )
-                }
-              />
-            </Box>
-
-            {/* Date Range Picker */}
-            <Box
-              minW={{ base: '100%', sm: '220px' }}
-              maxW={{ base: '100%', sm: '280px' }}
-            >
-              <DateRangePicker
-                selectedDates={selectedDates}
-                onDateChange={setSelectedDates}
-                placeholder="Select date range"
-                maxDate={new Date()}
-              />
-            </Box>
-
-            {/* Search */}
-            <Input
-              flex={1}
-              maxW={{ base: '100%', md: '300px' }}
-              minW={{ base: '100%', sm: '180px' }}
-              placeholder="Search transactions..."
-              bg="bg.surface"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+            {/* Wallet Selector (server-side filter - triggers blockchain fetch) */}
+            <TransactionFilters
+              walletOptions={walletOptions}
+              selectedWalletOption={selectedWalletOption}
+              onWalletChange={setSelectedWalletId}
+              isLoadingWallets={walletsLoading}
             />
+
+            {/* Filter Toggle Button */}
+            <Button
+              variant="outline"
+              borderColor={
+                activeFilterCount > 0 ? 'primary.500' : 'border.default'
+              }
+              color={activeFilterCount > 0 ? 'primary.400' : 'text.secondary'}
+              _hover={{ bg: 'bg.hover' }}
+              onClick={() => setShowFilters(!showFilters)}
+              size="md"
+            >
+              <HStack gap={2}>
+                <LuFilter size={16} />
+                <Text display={{ base: 'none', sm: 'inline' }}>Filters</Text>
+                {activeFilterCount > 0 && (
+                  <Badge
+                    bg="primary.500"
+                    color="white"
+                    fontSize="xs"
+                    borderRadius="full"
+                    minW="18px"
+                    h="18px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {activeFilterCount}
+                  </Badge>
+                )}
+                {showFilters ? (
+                  <LuChevronUp size={14} />
+                ) : (
+                  <LuChevronDown size={14} />
+                )}
+              </HStack>
+            </Button>
           </Flex>
 
           <HStack gap={3} flexShrink={0}>
@@ -389,6 +538,7 @@ export default function TransactionsPage() {
               _hover={{ bg: 'primary.600' }}
               disabled={filteredTransactions.length === 0}
               size={{ base: 'md', md: 'md' }}
+              onClick={() => setShowReportModal(true)}
             >
               <HStack gap={2}>
                 <LuFileText size={16} />
@@ -400,7 +550,22 @@ export default function TransactionsPage() {
           </HStack>
         </Flex>
 
-        {/* Summary stats */}
+        {/* Expandable Client-Side Filters Panel */}
+        {showFilters && (
+          <ClientFilters
+            selectedDates={selectedDates}
+            onDateChange={setSelectedDates}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            filters={filters}
+            appliedFilters={appliedFilters}
+            onFilterChange={handleFilterChange}
+            onApply={applyFilters}
+            onReset={resetFilters}
+          />
+        )}
+
+        {/* Summary stats - Shows filtered results */}
         <Flex
           gap={{ base: 3, md: 4 }}
           mb={6}
@@ -421,15 +586,20 @@ export default function TransactionsPage() {
               textTransform="uppercase"
               letterSpacing="wider"
             >
-              Total Income
+              {activeFilterCount > 0 ? 'Filtered Income' : 'Total Income'}
             </Text>
             <Text
               fontSize={{ base: 'xl', md: '2xl' }}
               fontWeight="600"
               color="green.400"
             >
-              {formatUsdAmount(summary?.totalIncome || 0)}
+              {formatUsdAmount(filteredSummary.totalIncome)}
             </Text>
+            {activeFilterCount > 0 && (
+              <Text fontSize="xs" color="text.tertiary" mt={1}>
+                of {formatUsdAmount(summary?.totalIncome || 0)} total
+              </Text>
+            )}
           </Box>
           <Box
             bg="bg.surface"
@@ -453,8 +623,13 @@ export default function TransactionsPage() {
               fontWeight="600"
               color="primary.400"
             >
-              {formatUsdAmount(summary?.verifiedIncome || 0)}
+              {formatUsdAmount(filteredSummary.verifiedIncome)}
             </Text>
+            {activeFilterCount > 0 && filteredSummary.verifiedCount > 0 && (
+              <Text fontSize="xs" color="text.tertiary" mt={1}>
+                {filteredSummary.verifiedCount} verified transactions
+              </Text>
+            )}
           </Box>
           <Box
             bg="bg.surface"
@@ -471,7 +646,7 @@ export default function TransactionsPage() {
               textTransform="uppercase"
               letterSpacing="wider"
             >
-              Transactions
+              {activeFilterCount > 0 ? 'Showing' : 'Transactions'}
             </Text>
             <HStack align="baseline" gap={2}>
               <Text
@@ -479,21 +654,27 @@ export default function TransactionsPage() {
                 fontWeight="600"
                 color="text.primary"
               >
-                {total}
+                {filteredTransactions.length}
               </Text>
-              {summary && summary.verifiedTransactions > 0 && (
-                <Badge
-                  bg="green.500/15"
-                  color="green.400"
-                  fontSize="xs"
-                  px={2}
-                  py={1}
-                  borderRadius="full"
-                >
-                  {summary.verifiedTransactions} verified
-                </Badge>
+              {activeFilterCount > 0 && (
+                <Text fontSize="sm" color="text.tertiary">
+                  of {total}
+                </Text>
               )}
             </HStack>
+            {filteredSummary.verifiedCount > 0 && (
+              <Badge
+                bg="green.500/15"
+                color="green.400"
+                fontSize="xs"
+                px={2}
+                py={1}
+                borderRadius="full"
+                mt={1}
+              >
+                {filteredSummary.verifiedCount} verified
+              </Badge>
+            )}
           </Box>
         </Flex>
 
@@ -930,6 +1111,28 @@ export default function TransactionsPage() {
           )}
         </Box>
       </Box>
+
+      {/* Generate Report Modal */}
+      <GenerateReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        onGenerate={handleGenerateReport}
+        isGenerating={isCreating}
+        transactionCount={filteredTransactions.length}
+        verifiedCount={filteredSummary.verifiedCount}
+        totalIncome={filteredSummary.totalIncome}
+        dateRange={
+          selectedDates.length === 2
+            ? [selectedDates[0], selectedDates[1]]
+            : undefined
+        }
+        reportTitle={reportTitle}
+        onReportTitleChange={setReportTitle}
+        selectedTemplate={selectedTemplate}
+        onTemplateChange={setSelectedTemplate}
+      />
+
+      <Toaster />
     </Box>
   );
 }

@@ -39,7 +39,7 @@ export async function GET() {
         _count: {
           select: {
             wallets: true,
-            transactions: true,
+            transactionMetas: true,
             reports: true,
           },
         },

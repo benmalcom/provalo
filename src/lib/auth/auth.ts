@@ -1,14 +1,14 @@
 /**
- * Auth.js v5 Configuration for Provalo
+ * Auth.js v5 Full Configuration for Provalo
  *
- * Providers: Google, GitHub, Email (Magic Link via Resend)
- * Database: Prisma Adapter (SQLite/Turso)
+ * This file includes the Prisma adapter and all providers.
+ * Use this for: API routes, server components, server actions
+ *
+ * For middleware, use auth.config.ts instead (edge-compatible)
  */
 
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import Google from 'next-auth/providers/google';
-import GitHub from 'next-auth/providers/github';
 import Resend from 'next-auth/providers/resend';
 import Nodemailer from 'next-auth/providers/nodemailer';
 import Credentials from 'next-auth/providers/credentials';
@@ -23,49 +23,24 @@ import {
   getMagicLinkText,
   MAGIC_LINK_SUBJECT,
 } from './email-templates';
+import authConfig from './auth.config';
 
 /**
- * Build providers array based on available environment variables
+ * Build additional providers (email, credentials) that need database
  */
-function getProviders(): Provider[] {
+function getAdditionalProviders(): Provider[] {
   const providers: Provider[] = [];
 
-  // Google OAuth
-  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-    providers.push(
-      Google({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      })
-    );
-  }
-
-  // GitHub OAuth
-  if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
-    providers.push(
-      GitHub({
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      })
-    );
-  }
-
-  // Email Provider (Magic Link)
   const resendApiKey = process.env.RESEND_API_KEY;
   const emailFrom = process.env.EMAIL_FROM || 'Provalo <onboarding@resend.dev>';
   const isDev = process.env.NODE_ENV === 'development';
 
-  console.log('[Auth] Environment:', process.env.NODE_ENV);
-
   if (isDev) {
     // Dev mode: Use Ethereal (fake SMTP that captures emails)
-    // Create account at https://ethereal.email/ and add credentials to .env.local
     const etherealUser = process.env.ETHEREAL_EMAIL;
     const etherealPass = process.env.ETHEREAL_PASSWORD;
 
     if (etherealUser && etherealPass) {
-      console.log('[Auth] Using Ethereal email for dev');
-      console.log('[Auth] 📬 View emails at: https://ethereal.email/login');
       providers.push(
         Nodemailer({
           server: {
@@ -97,65 +72,26 @@ function getProviders(): Provider[] {
 
             // Log the Ethereal URL to view the email
             const previewUrl = nodemailer.getTestMessageUrl(result);
-            console.log('\n');
             console.log(
-              '╔════════════════════════════════════════════════════════════╗'
+              `\n📧 Magic Link sent to ${email}\n👉 View: ${previewUrl}\n`
             );
-            console.log(
-              '║              📧 Magic Link Email Sent                      ║'
-            );
-            console.log(
-              '╠════════════════════════════════════════════════════════════╣'
-            );
-            console.log(`║ To: ${email}`);
-            console.log('║');
-            console.log('║ 👉 View email at:');
-            console.log(`║ ${previewUrl}`);
-            console.log(
-              '╚════════════════════════════════════════════════════════════╝'
-            );
-            console.log('\n');
           },
         })
       );
     } else {
-      // Fallback: just log to console
-      console.log(
-        '[Auth] No Ethereal credentials - logging magic links to console'
-      );
-      console.log(
-        '[Auth] To use Ethereal, add ETHEREAL_EMAIL and ETHEREAL_PASSWORD to .env.local'
-      );
+      // Fallback: just log magic link to console
       providers.push(
         Nodemailer({
           server: 'smtp://localhost:1025',
           from: emailFrom,
           async sendVerificationRequest({ identifier: email, url }) {
-            console.log('\n');
-            console.log(
-              '╔════════════════════════════════════════════════════════════╗'
-            );
-            console.log(
-              '║                    📧 MAGIC LINK                           ║'
-            );
-            console.log(
-              '╠════════════════════════════════════════════════════════════╣'
-            );
-            console.log(`║ To: ${email}`);
-            console.log('║');
-            console.log('║ Click this URL to sign in:');
-            console.log(`║ ${url}`);
-            console.log(
-              '╚════════════════════════════════════════════════════════════╝'
-            );
-            console.log('\n');
+            console.log(`\n📧 Magic Link for ${email}:\n${url}\n`);
           },
         })
       );
     }
   } else if (resendApiKey) {
-    // Production: Use Resend API with custom template
-    console.log('[Auth] Using Resend for emails');
+    // Production: Use Resend API
     providers.push(
       Resend({
         apiKey: resendApiKey,
@@ -173,12 +109,10 @@ function getProviders(): Provider[] {
         },
       })
     );
-  } else {
-    console.warn('[Auth] No email provider configured!');
   }
 
   // Development-only: Credentials provider for testing
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     providers.push(
       Credentials({
         name: 'Dev Login',
@@ -189,12 +123,11 @@ function getProviders(): Provider[] {
             placeholder: 'test@example.com',
           },
         },
-        authorize: async (credentials, _request): Promise<User | null> => {
+        authorize: async (credentials): Promise<User | null> => {
           if (!credentials?.email) return null;
 
           const email = credentials.email as string;
 
-          // Find or create user for dev testing
           let user = await prisma.user.findUnique({
             where: { email },
           });
@@ -223,28 +156,17 @@ function getProviders(): Provider[] {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma) as Adapter,
-
-  providers: getProviders(),
-
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-
-  pages: {
-    signIn: '/login',
-    signOut: '/login',
-    error: '/login',
-    verifyRequest: '/verify-email',
-  },
-
+  providers: [...authConfig.providers, ...getAdditionalProviders()],
   callbacks: {
+    ...authConfig.callbacks,
+
     redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) {
+      if (url.startsWith('/') && url !== '/') {
         return `${baseUrl}${url}`;
       }
-      if (url.startsWith(baseUrl)) {
+      if (url.startsWith(baseUrl) && url !== baseUrl && url !== `${baseUrl}/`) {
         return url;
       }
       return `${baseUrl}/wallets`;
@@ -266,6 +188,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-
-  debug: process.env.NODE_ENV === 'development',
+  debug: false,
 });
