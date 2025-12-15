@@ -22,12 +22,13 @@ import {
   LuFileText,
 } from 'react-icons/lu';
 import { Header } from '@/components/layout';
-import { useUserProfile } from '@/lib/hooks';
+import {} from '@/lib/hooks';
 import { Avatar } from '@/components/ui/avatar';
+import { useUser } from '@/contexts';
 
 export default function SettingsPage() {
   const { data: session } = useSession();
-  const { user, updateProfile, isUpdating, isLoading } = useUserProfile();
+  const { user, updateProfile, isUpdating, isLoading } = useUser();
   const [saved, setSaved] = useState(false);
 
   const [formData, setFormData] = useState({

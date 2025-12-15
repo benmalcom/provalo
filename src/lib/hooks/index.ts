@@ -6,6 +6,7 @@ export { useLinkedWallets } from './useLinkedWallets';
 export type { LinkedWallet } from './useLinkedWallets';
 
 export type { UserProfile, UpdateProfileData } from './useUserProfile';
+export { useUserProfile } from './useUserProfile';
 
 export {
   useTransactions,
