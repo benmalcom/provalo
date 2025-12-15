@@ -5,24 +5,15 @@
  * Production: Turso (LibSQL)
  */
 
-import dotenv from 'dotenv';
 import { defineConfig } from 'prisma/config';
-
-// Load from .env.local (Next.js convention)
-dotenv.config({ path: '.env.local' });
 
 // Determine database URL based on environment
 function getDatabaseUrl(): string {
   // Production: Use Turso
-  if (process.env.TURSO_DATABASE_URL) {
+  if (process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN) {
     const url = process.env.TURSO_DATABASE_URL;
     const token = process.env.TURSO_AUTH_TOKEN;
-
-    if (token) {
-      // Append auth token to URL
-      return `${url}?authToken=${token}`;
-    }
-    return url;
+    return `${url}?authToken=${token}`;
   }
 
   // Local development: SQLite file
