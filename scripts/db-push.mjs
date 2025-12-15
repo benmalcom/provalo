@@ -35,12 +35,12 @@ async function pushSchema() {
     authToken,
   });
 
-  // Generate migration SQL
+  // Generate migration SQL (updated flags for Prisma v7)
   console.log('[db-push] Generating migration SQL...');
 
   try {
     const sql = execSync(
-      'npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script',
+      'npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script',
       { encoding: 'utf-8' }
     );
 
