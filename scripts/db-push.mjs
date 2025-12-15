@@ -1,8 +1,5 @@
 /**
  * Push Prisma schema to Turso database
- *
- * This script uses the LibSQL adapter to push schema changes
- * since `prisma db push` doesn't support libsql:// URLs directly
  */
 
 import { execSync } from 'child_process';
@@ -21,7 +18,6 @@ async function pushSchema() {
 
   console.log('[db-push] Detected Turso database, pushing schema...');
 
-  // Extract URL without authToken query param if present
   const url = tursoUrl.split('?')[0];
   const authToken = tursoToken || tursoUrl.split('authToken=')[1];
 
@@ -29,34 +25,56 @@ async function pushSchema() {
     throw new Error('TURSO_AUTH_TOKEN is required for Turso databases');
   }
 
-  // Create LibSQL client
-  const libsql = createClient({
-    url,
-    authToken,
-  });
+  const libsql = createClient({ url, authToken });
 
-  // Generate migration SQL (updated flags for Prisma v7)
-  console.log('[db-push] Generating migration SQL...');
+  console.log('[db-push] Generating SQL from schema...');
 
   try {
-    const sql = execSync(
+    const output = execSync(
       'npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script',
       { encoding: 'utf-8' }
     );
 
-    // Split into individual statements and execute
+    // Filter out Prisma log lines, keep only SQL
+    const sql = output
+      .split('\n')
+      .filter(line => {
+        const t = line.trim();
+        return (
+          t &&
+          !t.startsWith('Loaded') &&
+          !t.startsWith('Prisma') &&
+          !t.startsWith('✔')
+        );
+      })
+      .join('\n');
+
     const statements = sql
       .split(';')
       .map(s => s.trim())
       .filter(s => s.length > 0 && !s.startsWith('--'));
+
+    if (statements.length === 0) {
+      const result = await libsql.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='User'"
+      );
+      if (result.rows.length > 0) {
+        console.log('[db-push] Tables already exist.');
+        libsql.close();
+        return;
+      }
+      throw new Error('No SQL generated and no tables exist.');
+    }
 
     console.log(`[db-push] Executing ${statements.length} statements...`);
 
     for (const statement of statements) {
       try {
         await libsql.execute(statement + ';');
+        console.log(
+          `[db-push] ✓ ${statement.substring(0, 50).replace(/\n/g, ' ')}...`
+        );
       } catch (err) {
-        // Ignore "table already exists" errors
         if (err.message?.includes('already exists')) {
           console.log(`[db-push] Table already exists, skipping...`);
         } else {
@@ -67,7 +85,6 @@ async function pushSchema() {
 
     console.log('[db-push] Schema pushed successfully!');
   } catch (err) {
-    // If migrate diff fails, tables might already exist - that's ok
     if (err.message?.includes('already exists')) {
       console.log('[db-push] Schema already up to date');
     } else {
