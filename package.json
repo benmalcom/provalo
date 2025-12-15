@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3007",
-    "build": "prisma db push && next build",
+    "build": "prisma generate && node scripts/db-push.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -22,6 +22,7 @@
     "postinstall": "prisma generate",
     "db:generate": "npx prisma generate",
     "db:push": "npx prisma db push && npm run db:generate",
+    "db:push:turso": "node scripts/db-push.mjs",
     "db:studio": "npx prisma studio",
     "db:migrate": "npx prisma migrate dev && npm run db:generate",
     "db:seed": "npx prisma db seed"
@@ -37,6 +38,7 @@
     "@chakra-ui/system": "^2.6.2",
     "@emotion/react": "^11.14.0",
     "@hookform/resolvers": "^5.0.1",
+    "@libsql/client": "^0.15.0",
     "@prisma/adapter-libsql": "^7.1.0",
     "@prisma/client": "^7.1.0",
     "@react-pdf/renderer": "^4.3.1",
