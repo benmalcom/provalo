@@ -91,7 +91,7 @@ export function useLinkedWallets(): UseLinkedWalletsReturn {
           'This signature proves you own this wallet.',
         ].join('\n');
 
-        // Sign message
+        // Sign message - this can throw if user rejects
         const signature = await wallet.signMessage(message);
 
         // Send to API
@@ -108,8 +108,8 @@ export function useLinkedWallets(): UseLinkedWalletsReturn {
         });
 
         if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.error || 'Failed to link wallet');
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to link wallet');
         }
 
         const { wallet: linkedWallet } = await response.json();
@@ -119,7 +119,9 @@ export function useLinkedWallets(): UseLinkedWalletsReturn {
 
         return linkedWallet;
       } finally {
+        // Always disconnect and reset state, regardless of success or failure
         setIsLinking(false);
+        await wallet.disconnect();
       }
     },
     [wallet]

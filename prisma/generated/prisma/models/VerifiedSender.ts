@@ -1521,6 +1521,7 @@ export type VerifiedSenderCreateManyArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many VerifiedSenders.
    */
   data: Prisma.VerifiedSenderCreateManyInput | Prisma.VerifiedSenderCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1539,6 +1540,7 @@ export type VerifiedSenderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * The data used to create many VerifiedSenders.
    */
   data: Prisma.VerifiedSenderCreateManyInput | Prisma.VerifiedSenderCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**

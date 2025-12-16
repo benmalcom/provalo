@@ -30,7 +30,7 @@ export async function GET() {
         id: true,
         name: true,
         email: true,
-        avatar: true,
+        image: true,
         displayName: true,
         businessName: true,
         address: true,
@@ -53,7 +53,12 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json({ user });
+    return NextResponse.json({
+      user: {
+        ...user,
+        avatar: user.image,
+      },
+    });
   } catch (error) {
     console.error('Error fetching user:', error);
     return NextResponse.json(
@@ -72,6 +77,7 @@ export async function GET() {
  * - businessName?: string - Business/company name
  * - address?: string - Physical address
  * - phone?: string - Contact phone
+ * - avatar?: string - Profile image URL
  */
 export async function PATCH(request: NextRequest) {
   try {
@@ -85,7 +91,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { displayName, businessName, address, phone } = body;
+    const { displayName, businessName, address, phone, avatar } = body;
 
     // Validate input lengths
     if (displayName && displayName.length > 100) {
@@ -133,12 +139,13 @@ export async function PATCH(request: NextRequest) {
         businessName: businessName ?? undefined,
         address: address ?? undefined,
         phone: phone ?? undefined,
+        image: avatar ?? undefined, // Map avatar from frontend to image in DB
       },
       select: {
         id: true,
         name: true,
         email: true,
-        avatar: true,
+        image: true,
         displayName: true,
         businessName: true,
         address: true,
@@ -146,7 +153,12 @@ export async function PATCH(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ user });
+    return NextResponse.json({
+      user: {
+        ...user,
+        avatar: user.image,
+      },
+    });
   } catch (error) {
     console.error('Error updating user:', error);
     return NextResponse.json(

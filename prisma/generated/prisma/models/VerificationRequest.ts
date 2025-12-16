@@ -600,6 +600,7 @@ export type VerificationRequestCreateOrConnectWithoutVerifiedSenderInput = {
 
 export type VerificationRequestCreateManyVerifiedSenderInputEnvelope = {
   data: Prisma.VerificationRequestCreateManyVerifiedSenderInput | Prisma.VerificationRequestCreateManyVerifiedSenderInput[]
+  skipDuplicates?: boolean
 }
 
 export type VerificationRequestUpsertWithWhereUniqueWithoutVerifiedSenderInput = {
@@ -1473,6 +1474,7 @@ export type VerificationRequestCreateManyArgs<ExtArgs extends runtime.Types.Exte
    * The data used to create many VerificationRequests.
    */
   data: Prisma.VerificationRequestCreateManyInput | Prisma.VerificationRequestCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1491,6 +1493,7 @@ export type VerificationRequestCreateManyAndReturnArgs<ExtArgs extends runtime.T
    * The data used to create many VerificationRequests.
    */
   data: Prisma.VerificationRequestCreateManyInput | Prisma.VerificationRequestCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

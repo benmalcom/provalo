@@ -615,6 +615,7 @@ export type TransactionMetaCreateOrConnectWithoutUserInput = {
 
 export type TransactionMetaCreateManyUserInputEnvelope = {
   data: Prisma.TransactionMetaCreateManyUserInput | Prisma.TransactionMetaCreateManyUserInput[]
+  skipDuplicates?: boolean
 }
 
 export type TransactionMetaUpsertWithWhereUniqueWithoutUserInput = {
@@ -677,6 +678,7 @@ export type TransactionMetaCreateOrConnectWithoutWalletInput = {
 
 export type TransactionMetaCreateManyWalletInputEnvelope = {
   data: Prisma.TransactionMetaCreateManyWalletInput | Prisma.TransactionMetaCreateManyWalletInput[]
+  skipDuplicates?: boolean
 }
 
 export type TransactionMetaUpsertWithWhereUniqueWithoutWalletInput = {
@@ -724,6 +726,7 @@ export type TransactionMetaCreateOrConnectWithoutVerifiedSenderInput = {
 
 export type TransactionMetaCreateManyVerifiedSenderInputEnvelope = {
   data: Prisma.TransactionMetaCreateManyVerifiedSenderInput | Prisma.TransactionMetaCreateManyVerifiedSenderInput[]
+  skipDuplicates?: boolean
 }
 
 export type TransactionMetaUpsertWithWhereUniqueWithoutVerifiedSenderInput = {
@@ -1631,6 +1634,7 @@ export type TransactionMetaCreateManyArgs<ExtArgs extends runtime.Types.Extensio
    * The data used to create many TransactionMetas.
    */
   data: Prisma.TransactionMetaCreateManyInput | Prisma.TransactionMetaCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1649,6 +1653,7 @@ export type TransactionMetaCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    * The data used to create many TransactionMetas.
    */
   data: Prisma.TransactionMetaCreateManyInput | Prisma.TransactionMetaCreateManyInput[]
+  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

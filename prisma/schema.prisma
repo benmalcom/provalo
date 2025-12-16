@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ============================================================================
@@ -19,13 +19,13 @@ model User {
   name          String?
   email         String    @unique // Required for identity
   emailVerified DateTime?
-  avatar        String?
+  image         String?
 
   // Profile fields for statements/reports
-  displayName   String?   // Name to show on generated statements
-  businessName  String?   // Optional business/company name
-  address       String?   // Physical address for statements
-  phone         String?   // Contact phone
+  displayName  String? // Name to show on generated statements
+  businessName String? // Optional business/company name
+  address      String? // Physical address for statements
+  phone        String? // Contact phone
 
   // NextAuth relations
   accounts Account[]
@@ -85,10 +85,10 @@ model VerificationToken {
 
 /// Wallet linked to a user account
 model Wallet {
-  id        String  @id @default(cuid())
-  address   String  // 0x... checksummed address
-  chainId   Int     // Chain ID from connected wallet
-  label     String? // User-friendly label: "Main Wallet", "Freelance", etc.
+  id      String  @id @default(cuid())
+  address String // 0x... checksummed address
+  chainId Int // Chain ID from connected wallet
+  label   String? // User-friendly label: "Main Wallet", "Freelance", etc.
 
   // Proof of ownership
   signature  String // Signature proving ownership
@@ -135,10 +135,10 @@ model TransactionMeta {
 /// Verified sender (company/entity that verified their address)
 model VerifiedSender {
   id            String  @id @default(cuid())
-  address       String  // The verified wallet address
-  chainId       Int     // Chain ID for the address
+  address       String // The verified wallet address
+  chainId       Int // Chain ID for the address
   companyName   String
-  officialLabel String  // e.g., "Acme Corp - Contract Payment"
+  officialLabel String // e.g., "Acme Corp - Contract Payment"
   contactEmail  String
   logoUrl       String?
   isActive      Boolean @default(true)
@@ -207,12 +207,12 @@ model Report {
   template ReportTemplate @default(STANDARD)
 
   // Generated content
-  pdfUrl        String?
+  pdfUrl         String?
   transactionIds String // JSON array of transaction IDs included
 
   // Metadata
-  totalIncome    Float
-  totalVerified  Float
+  totalIncome      Float
+  totalVerified    Float
   transactionCount Int
 
   // Relations

@@ -76,7 +76,6 @@ export const globalStyles = {
   // Remove default button styles
   button: {
     background: 'none',
-    border: 'none',
     cursor: 'pointer',
   },
 

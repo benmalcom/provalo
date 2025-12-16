@@ -14,6 +14,10 @@ export const buttonRecipe = defineRecipe({
     _disabled: {
       opacity: 0.5,
       cursor: 'not-allowed',
+      _hover: {
+        transform: 'none',
+        boxShadow: 'none',
+      },
     },
   },
   variants: {
@@ -23,24 +27,34 @@ export const buttonRecipe = defineRecipe({
         color: 'white',
         _hover: {
           bg: 'primary.600',
+          transform: 'translateY(-1px)',
+        },
+        _active: {
+          bg: 'primary.700',
+          transform: 'translateY(0)',
         },
       },
       outline: {
-        borderWidth: '1px',
-        borderColor: 'border.default',
+        border: '1px solid {colors.dark.700}',
         color: 'text.primary',
         bg: 'transparent',
         _hover: {
-          bg: 'bg.hover',
-          borderColor: 'primary.500',
+          bg: 'dark.800',
+          border: '1px solid {colors.dark.600}',
+        },
+        _active: {
+          bg: 'dark.700',
         },
       },
       ghost: {
         color: 'text.secondary',
         bg: 'transparent',
         _hover: {
-          bg: 'bg.hover',
+          bg: 'dark.800',
           color: 'text.primary',
+        },
+        _active: {
+          bg: 'dark.700',
         },
       },
     },
